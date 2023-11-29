@@ -41,7 +41,7 @@ function fetchSunriseSunset(latitude, longitude) {
 
     document.getElementById('data-display').innerHTML = '';
 
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 5; i++) {
 
         setTimeout(() => {
             let date = new Date();
