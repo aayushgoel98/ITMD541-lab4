@@ -12,13 +12,17 @@ html, body {
 body {
     font-family: 'Roboto', sans-serif; 
     background: linear-gradient(to bottom, #1b4de4, #f4f4f4);
-    color: white;
+    color: #333;
     background-position: center;
     background-repeat: no-repeat;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
 }
+
+
 
 header {
     background-color: #039;
