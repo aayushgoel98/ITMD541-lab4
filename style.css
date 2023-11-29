@@ -12,17 +12,13 @@ html, body {
 body {
     font-family: 'Roboto', sans-serif; 
     background: linear-gradient(to bottom, #1b4de4, #f4f4f4);
-    color: #333;
+    color: white;
     background-position: center;
     background-repeat: no-repeat;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
 }
-
-
 
 header {
     background-color: #039;
@@ -52,7 +48,51 @@ main {
     background-color: rgba(255, 255, 255, 0.9); 
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
+
+.times {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end; /* Align items to the right */
+    justify-content: space-around;
+    width: 100%; /* Adjust width as needed */
+}
+
+
+.options {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 80%; /* Adjust width as needed */
+}
+
+@media (min-width: 600px) {
+    .options {
+        flex-direction: row; /* Switch to a row layout on larger screens */
+        justify-content: space-around; /* Add space between items */
+        align-items: center;
+    }
+#current-location,
+#predefined-locations,
+#location-search {
+    margin: 50px; /* Add some spacing between elements if needed */
+    max-width: 300px; /* Set a max-width for better responsiveness */
+}
+}
+
+
 
 .container {
     padding: 20px;
@@ -61,10 +101,14 @@ main {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     position: relative;
+    top: 50%;
+    transform: translateY(-50%);
     width: 80%;
     max-width: 1200px;
-    margin: 20px auto;
+    margin: 0 auto; /* Centering horizontally by setting margin-left and margin-right to auto */
+    margin-bottom: 50px;
 }
+
 
 #data-display {
     display: flex;
@@ -101,15 +145,17 @@ main {
 }
 
 footer {
+
     background-color: #039;
     color: white;
     padding: 10px;
     text-align: center;
-    position: relative; 
+    position: absolute; 
     bottom: 0;
     width: 100%;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
     flex-shrink: 0; 
+   
 }
 
 footer a {
