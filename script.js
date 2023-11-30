@@ -1,6 +1,6 @@
-document.getElementById('current-location').addEventListener('click', getCurrentLocation);
-document.getElementById('predefined-locations').addEventListener('change', handleLocationChange);
-document.getElementById('location-search').addEventListener('change', handleLocationSearch);
+document.getElementById('current-btn').addEventListener('click', getCurrentLocation);
+document.getElementById('location-select').addEventListener('change', handleLocationChange);
+document.getElementById('search-box').addEventListener('input', handleLocationSearch);
 
 function getCurrentLocation() {
     if (navigator.geolocation) {
@@ -17,8 +17,7 @@ function handleLocationChange(event) {
     const selectedValue = event.target.value;
     if (selectedValue) {
         const [latitude, longitude] = selectedValue.split(',');
-        const locationName = event.target.options[event.target.selectedIndex].text;
-        fetchSunriseSunset(latitude, longitude, locationName);
+        fetchSunriseSunset(latitude, longitude);
     }
 }
 
@@ -36,28 +35,17 @@ function handleLocationSearch(event) {
         }).catch(() => showError("Error fetching location data."));
 }
 
-
 function fetchSunriseSunset(latitude, longitude) {
-
-    document.getElementById('data-display').innerHTML = '';
+    const tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = ''; // Clear existing data
 
     for (let i = 0; i < 5; i++) {
-
         setTimeout(() => {
             let date = new Date();
             date.setDate(date.getDate() + i);
             fetchDataForDate(latitude, longitude, date.toISOString().split('T')[0], i);
         }, i * 500);
     }
-        // Fetch timezone information
-        fetch(`https://timezoneapi.io/api/ip/?${latitude},${longitude}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.meta.code === 200) {
-                document.getElementById('timezone-display').innerText = `Timezone: [Extracted Timezone Data]`;
-                document.getElementById('timezone-display').innerText = `Timezone: ${data.data.timezone.id}`;
-            }
-        });
 }
 
 function fetchDataForDate(latitude, longitude, date, dayIndex) {
@@ -66,7 +54,7 @@ function fetchDataForDate(latitude, longitude, date, dayIndex) {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'OK') {
-                updateUI(data.results, dayIndex, date);
+                updateUI(data.results, dayIndex, date, latitude, longitude);
             } else {
                 showError("Error fetching data.");
             }
@@ -75,33 +63,30 @@ function fetchDataForDate(latitude, longitude, date, dayIndex) {
 }
 
 function updateUI(data, dayIndex, date) {
-    let display = document.getElementById('data-display');
-    let dayData = `<div class="day-data">
-        <h3>Day ${dayIndex + 1} (${date}):</h3>
-        <p><img src="logos/sunrise-today.png" alt="Sunrise Today Logo"><strong>Sunrise:</strong>  ${data.sunrise}</p>
-        <p><img src="logos/sunset-today.png" alt="Sunset Today Logo"><strong>Sunset:</strong>  ${data.sunset}</p>
-        <p><img src="logos/dawn-today.png" alt="Dawn Today Logo"><strong>Dawn:</strong>  ${data.dawn}</p>
-        <p><img src="logos/dusk-today.png" alt="Dusk Today Logo"><strong>Dusk:</strong>  ${data.dusk}</p>
-        <p><img src="logos/daylength-today.png" alt="Day Length Today Logo"> <strong>Day Length:</strong> ${data.day_length}</p>
-        <p><img src="logos/solarnoon-today.png" alt="Solar Noon Today Logo"><strong>Solar Noon:</strong>  ${data.solar_noon}</p>
-        <p><img src="logos/timezone.png" alt="timezone Logo"><strong>Timezone:</strong> ${data.timezone}</p>
-    </div>`;
-    display.innerHTML += dayData;
-}
+    let tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+    let newRow = tableBody.insertRow(tableBody.rows.length);
 
+    let cellDate = newRow.insertCell(0);
+    cellDate.innerHTML = date;
+
+    let cellSunrise = newRow.insertCell(1);
+    cellSunrise.innerHTML = data.sunrise;
+
+    let cellSunset = newRow.insertCell(2);
+    cellSunset.innerHTML = data.sunset;
+
+    let cellDayLength = newRow.insertCell(3);
+    cellDayLength.innerHTML = data.day_length;
+
+    let cellSolarNoon = newRow.insertCell(4);
+    cellSolarNoon.innerHTML = data.solar_noon;
+
+    let cellTimezone = newRow.insertCell(5);
+    cellTimezone.innerHTML = data.timezone;  // Accessing timezone directly from the data object
+}
 
 
 function showError(error) {
     const display = document.getElementById('data-display');
     display.innerText = error;
 }
-
-function updateTime() {
-    const now = new Date();
-    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
-    const dateString = now.toLocaleDateString('en-US', dateOptions);
-    const timeString = now.toLocaleTimeString('en-US', timeOptions);
-    document.getElementById('current-time').innerText = `${dateString} | ${timeString}`;
-}
-setInterval(updateTime, 1000);
