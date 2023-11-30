@@ -39,7 +39,7 @@ function fetchSunriseSunset(latitude, longitude) {
     const tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
     tableBody.innerHTML = ''; // Clear existing data
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = -1; i < 5; i++) {
         setTimeout(() => {
             let date = new Date();
             date.setDate(date.getDate() + i);
