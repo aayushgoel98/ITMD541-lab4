@@ -75,13 +75,17 @@ function updateUI(data, dayIndex, date) {
     let cellSunset = newRow.insertCell(2);
     cellSunset.innerHTML = data.sunset;
 
-    let cellDayLength = newRow.insertCell(3);
+    let cellDawn = newRow.insertCell(3);
+    cellDawn.innerHTML = data.dawn;
+
+
+    let cellDayLength = newRow.insertCell(4);
     cellDayLength.innerHTML = data.day_length;
 
-    let cellSolarNoon = newRow.insertCell(4);
+    let cellSolarNoon = newRow.insertCell(5);
     cellSolarNoon.innerHTML = data.solar_noon;
 
-    let cellTimezone = newRow.insertCell(5);
+    let cellTimezone = newRow.insertCell(6);
     cellTimezone.innerHTML = data.timezone;  // Accessing timezone directly from the data object
 }
 
