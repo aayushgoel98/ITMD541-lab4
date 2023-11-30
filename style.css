@@ -41,7 +41,8 @@ main {
     align-items: center;
     justify-content: center;
 }
-.time-buttons{
+
+.time-buttons {
     position: absolute;
     top: 10%;
     left: 50%;
